@@ -289,6 +289,12 @@
     document.addEventListener("click", function (e) {
       var trigger = e.target.closest("[data-play]");
       if (trigger) {
+        // iOS Safari fails to render <video> inline when it's nested two
+        // iframes deep (our lightbox iframe > Drive's own player iframe) —
+        // audio plays but the picture stays black until fullscreen.
+        // On touch devices, skip the in-page lightbox and let the link open
+        // Drive's own page directly (not nested), where video renders fine.
+        if (!fineHover) return;
         e.preventDefault();
         open(trigger.getAttribute("data-embed"), trigger.getAttribute("data-title"));
         return;
