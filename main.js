@@ -297,23 +297,6 @@
       lightbox.classList.add("is-open");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
-
-      // iOS Safari won't paint <video> inline once it's nested two iframes
-      // deep (our lightbox iframe > Drive's own player iframe) — audio
-      // plays but the picture stays black until the player is promoted to
-      // fullscreen. Rather than send touch users away to Drive's own page,
-      // stay on the site and push the freshly-created iframe into fullscreen
-      // ourselves, in the same tap gesture — that's enough to make it render.
-      if (!fineHover) {
-        var iframeEl = frame.querySelector("iframe");
-        var request = iframeEl.requestFullscreen || iframeEl.webkitRequestFullscreen || iframeEl.webkitEnterFullscreen;
-        if (request) {
-          try {
-            var result = request.call(iframeEl);
-            if (result && result.catch) result.catch(function () {});
-          } catch (err) {}
-        }
-      }
     }
     function close() {
       lightbox.classList.remove("is-open");
@@ -333,16 +316,6 @@
       }
       if (e.target.closest("[data-lightbox-close]")) close();
     });
-
-    // On touch, we auto-enter fullscreen when opening; when the user exits
-    // fullscreen (native back/close gesture) they'd otherwise land back on
-    // the still-broken inline black video, so close the lightbox with it.
-    function onFullscreenChange() {
-      var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
-      if (!fsEl && !fineHover && lightbox.classList.contains("is-open")) close();
-    }
-    document.addEventListener("fullscreenchange", onFullscreenChange);
-    document.addEventListener("webkitfullscreenchange", onFullscreenChange);
 
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && lightbox.classList.contains("is-open")) close();
