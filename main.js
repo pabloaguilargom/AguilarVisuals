@@ -274,12 +274,10 @@
     var lightbox = $("[data-lightbox]");
     if (!lightbox) return;
     var frame = $("[data-lightbox-frame]", lightbox);
-    var titleEl = $("[data-lightbox-title]", lightbox);
     var panel = $(".lightbox-panel", lightbox);
 
-    function open(embedUrl, title, trigger) {
+    function open(embedUrl, trigger) {
       frame.innerHTML = '<iframe src="' + embedUrl + '" allow="autoplay; fullscreen" allowfullscreen webkitallowfullscreen mozallowfullscreen loading="eager"></iframe>';
-      titleEl.textContent = title || "";
 
       // Match the player's shape to the video's real orientation instead of
       // always forcing a 16:9 box — vertical/portrait cuts get squeezed
@@ -330,7 +328,7 @@
       var trigger = e.target.closest("[data-play]");
       if (trigger) {
         e.preventDefault();
-        open(trigger.getAttribute("data-embed"), trigger.getAttribute("data-title"), trigger);
+        open(trigger.getAttribute("data-embed"), trigger);
         return;
       }
       if (e.target.closest("[data-lightbox-close]")) close();
