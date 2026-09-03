@@ -517,10 +517,11 @@ em { font-style: italic; color: var(--accent); }
   border-radius: 18px;
   overflow: hidden;
   transform: translateY(18px) scale(.98);
-  transition: transform .5s var(--ease-bounce);
+  transition: transform .5s var(--ease-bounce), width .4s var(--ease-out);
   box-shadow: 0 40px 90px -20px rgba(0,0,0,.5);
 }
 .lightbox.is-open .lightbox-panel { transform: none; }
+.lightbox-panel.is-portrait { width: min(420px, 88vw); }
 .lightbox-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: .9rem 1.1rem;

@@ -271,10 +271,27 @@
     if (!lightbox) return;
     var frame = $("[data-lightbox-frame]", lightbox);
     var titleEl = $("[data-lightbox-title]", lightbox);
+    var panel = $(".lightbox-panel", lightbox);
 
-    function open(embedUrl, title) {
+    function open(embedUrl, title, trigger) {
       frame.innerHTML = '<iframe src="' + embedUrl + '" allow="autoplay; fullscreen" allowfullscreen loading="eager"></iframe>';
       titleEl.textContent = title || "";
+
+      // Match the player's shape to the video's real orientation instead of
+      // always forcing a 16:9 box — vertical/portrait cuts get squeezed
+      // into tiny letterboxed strips otherwise. We read the dimensions off
+      // the card's own thumbnail image, which already reflects the video's
+      // actual frame.
+      var thumb = trigger && trigger.querySelector(".project-card-thumb");
+      var portrait = false;
+      if (thumb && thumb.naturalWidth && thumb.naturalHeight) {
+        frame.style.aspectRatio = thumb.naturalWidth + " / " + thumb.naturalHeight;
+        portrait = thumb.naturalWidth / thumb.naturalHeight < 0.95;
+      } else {
+        frame.style.aspectRatio = "";
+      }
+      if (panel) panel.classList.toggle("is-portrait", portrait);
+
       lightbox.classList.add("is-open");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
@@ -283,6 +300,8 @@
       lightbox.classList.remove("is-open");
       lightbox.setAttribute("aria-hidden", "true");
       frame.innerHTML = "";
+      frame.style.aspectRatio = "";
+      if (panel) panel.classList.remove("is-portrait");
       document.body.style.overflow = "";
     }
 
@@ -296,7 +315,7 @@
         // Drive's own page directly (not nested), where video renders fine.
         if (!fineHover) return;
         e.preventDefault();
-        open(trigger.getAttribute("data-embed"), trigger.getAttribute("data-title"));
+        open(trigger.getAttribute("data-embed"), trigger.getAttribute("data-title"), trigger);
         return;
       }
       if (e.target.closest("[data-lightbox-close]")) close();
