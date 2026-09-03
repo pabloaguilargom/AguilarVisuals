@@ -546,15 +546,8 @@ em { font-style: italic; color: var(--accent); }
   .project-grid { gap: 1rem; }
 }
 @media (max-width: 640px) {
-  /* Google Drive's own control bar has a fixed pixel height. Locking the
-     player to width-driven 16:9 on a narrow phone leaves so little vertical
-     room that the controls cover most of the picture. Give landscape videos
-     real height to work with instead — Drive letterboxes the actual video
-     inside it, so the fixed controls end up over the letterbox bars, not
-     the footage. */
   .lightbox { padding: .6rem; }
   .lightbox-panel:not(.is-portrait) { width: 100%; }
-  .lightbox-panel:not(.is-portrait) .lightbox-frame { aspect-ratio: auto; height: 62dvh; }
 }
 @media (min-width: 1280px) {
   .hero-title { max-width: 16ch; }
