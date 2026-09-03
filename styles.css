@@ -520,7 +520,7 @@ em { font-style: italic; color: var(--accent); }
   transition: transform .5s var(--ease-bounce);
   box-shadow: 0 40px 90px -20px rgba(0,0,0,.5);
 }
-.lightbox.is-open .lightbox-panel { transform: translateY(0) scale(1); }
+.lightbox.is-open .lightbox-panel { transform: none; }
 .lightbox-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: .9rem 1.1rem;
