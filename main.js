@@ -285,8 +285,13 @@
       var thumb = trigger && trigger.querySelector(".project-card-thumb");
       var portrait = false;
       if (thumb && thumb.naturalWidth && thumb.naturalHeight) {
-        frame.style.aspectRatio = thumb.naturalWidth + " / " + thumb.naturalHeight;
         portrait = thumb.naturalWidth / thumb.naturalHeight < 0.95;
+        // On narrow phones, landscape video gets more usable height from the
+        // CSS media-query override (aspect-ratio: auto) than from matching
+        // its exact ratio — Drive's fixed-height control bar would otherwise
+        // cover most of a width-locked 16:9 box. Portrait video has no such
+        // problem, so it always gets its precise real ratio.
+        frame.style.aspectRatio = (portrait || fineHover) ? thumb.naturalWidth + " / " + thumb.naturalHeight : "";
       } else {
         frame.style.aspectRatio = "";
       }
