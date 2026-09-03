@@ -233,7 +233,7 @@ em { font-style: italic; color: var(--accent); }
 .nav-links a:hover::after { width: 100%; }
 .nav-cta { display: none; }
 .nav-burger {
-  width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
 }
 .nav-burger span, .nav-burger::before, .nav-burger::after {
   content: ""; position: absolute; width: 20px; height: 1.6px; background: var(--ink);
@@ -379,7 +379,6 @@ em { font-style: italic; color: var(--accent); }
   grid-template-columns: repeat(2, 1fr);
   gap: .9rem;
 }
-@media (min-width: 540px) { .project-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 960px) { .project-grid { grid-template-columns: repeat(3, 1fr); gap: 1.1rem; } }
 
 .project-card { position: relative; }
@@ -430,11 +429,18 @@ em { font-style: italic; color: var(--accent); }
   color: #fff;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
-  background: rgba(11,27,43,.42);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  /* Solid fallback everywhere; backdrop-filter only where a GPU has one
+     pointer to blur, not 49 of them scrolling past on a phone at once. */
+  background: rgba(11,27,43,.6);
   opacity: .88;
   transition: color .35s var(--ease-out), transform .45s var(--ease-bounce), opacity .35s var(--ease-out), background .35s var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .project-card-icon {
+    background: rgba(11,27,43,.42);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
 }
 .project-card-icon svg { width: 60%; height: 60%; }
 .project-card-link:hover .project-card-icon { color: #fff; background: var(--accent); transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
@@ -529,7 +535,7 @@ em { font-style: italic; color: var(--accent); }
 }
 .lightbox-title { font-family: var(--mono); font-size: .78rem; color: rgba(255,255,255,.75); }
 .lightbox-close {
-  width: 34px; height: 34px; border-radius: 50%;
+  width: 44px; height: 44px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   color: #fff;
   transition: background .3s var(--ease-out), transform .3s var(--ease-out);

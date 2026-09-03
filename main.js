@@ -36,19 +36,23 @@
     var el = $("[data-split]");
     if (!el) return;
     var spans = splitWords(el);
-    if (window.gsap) {
-      gsap.set(spans, { yPercent: 130 });
-      gsap.to(spans, {
-        yPercent: 0,
-        duration: reduced ? 0.5 : 1.1,
-        ease: "expo.out",
-        stagger: 0.045,
-        delay: 0.15,
+    // Plain CSS transition stagger — no animation library needed for one
+    // headline. Start state is set inline, then flipped on the next frame
+    // so the transition actually runs.
+    spans.forEach(function (span, i) {
+      span.style.transform = "translateY(130%)";
+      span.style.transition = "transform " + (reduced ? 0.5 : 1.1) + "s " + (0.15 + i * 0.045) + "s cubic-bezier(0.16, 1, 0.3, 1)";
+    });
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        spans.forEach(function (span) { span.style.transform = "translateY(0)"; });
       });
-      // Safety net: guarantee the headline is visible even if the tween
-      // never fires (slow font swap, tab backgrounded during load, etc.)
-      setTimeout(function () { gsap.set(spans, { yPercent: 0 }); }, 2500);
-    }
+    });
+    // Safety net: guarantee the headline is visible even if the transition
+    // never fires (tab backgrounded during load, etc.)
+    setTimeout(function () {
+      spans.forEach(function (span) { span.style.transform = "translateY(0)"; });
+    }, 2500);
   }
 
   /* ---------------------------------------------------------

@@ -1,0 +1,57 @@
+Lista de nombres de archivo para subir a Cloudflare R2
+Bucket: aguilar-visuals-videos
+
+Renombra cada vídeo descargado de Drive exactamente así antes de subirlo
+(mismo orden que aparece en la web para cada cliente):
+
+grupo-suntory-01.mp4   <-  Grupo Suntory / Proyecto 1
+grupo-suntory-02.mp4   <-  Grupo Suntory / Proyecto 2
+grupo-suntory-03.mp4   <-  Grupo Suntory / Proyecto 3
+grupo-suntory-04.mp4   <-  Grupo Suntory / Proyecto 4
+hoteles-melia-01.mp4   <-  Hoteles Meliá / Proyecto 1
+hoteles-melia-02.mp4   <-  Hoteles Meliá / Proyecto 2
+hoteles-melia-03.mp4   <-  Hoteles Meliá / Proyecto 3
+hoteles-melia-04.mp4   <-  Hoteles Meliá / Proyecto 4
+hoteles-melia-05.mp4   <-  Hoteles Meliá / Proyecto 5
+hoteles-melia-06.mp4   <-  Hoteles Meliá / Proyecto 6
+hoteles-melia-07.mp4   <-  Hoteles Meliá / Proyecto 7
+hoteles-melia-08.mp4   <-  Hoteles Meliá / Proyecto 8
+dewars-01.mp4   <-  DEWAR'S / Proyecto 1
+dewars-02.mp4   <-  DEWAR'S / Proyecto 2
+dewars-03.mp4   <-  DEWAR'S / Proyecto 3
+dewars-04.mp4   <-  DEWAR'S / Proyecto 4
+acesur-01.mp4   <-  ACESUR / Proyecto 1
+acesur-02.mp4   <-  ACESUR / Proyecto 2
+acesur-03.mp4   <-  ACESUR / Proyecto 3
+cochesur-01.mp4   <-  COCHESUR / Proyecto 1
+cervezas-gran-via-01.mp4   <-  CERVEZAS GRAN VÍA / Proyecto 1
+cervezas-gran-via-02.mp4   <-  CERVEZAS GRAN VÍA / Proyecto 2
+cervezas-gran-via-03.mp4   <-  CERVEZAS GRAN VÍA / Proyecto 3
+instituto-de-estudios-cajasol-01.mp4   <-  INSTITUTO DE ESTUDIOS CAJASOL / Proyecto 1
+el-pinton-afuego-y-anibal-club-01.mp4   <-  EL PINTÓN, AFUEGO Y ANIBAL CLUB / Proyecto 1
+el-pinton-afuego-y-anibal-club-02.mp4   <-  EL PINTÓN, AFUEGO Y ANIBAL CLUB / Proyecto 2
+el-pinton-afuego-y-anibal-club-03.mp4   <-  EL PINTÓN, AFUEGO Y ANIBAL CLUB / Proyecto 3
+el-pinton-afuego-y-anibal-club-04.mp4   <-  EL PINTÓN, AFUEGO Y ANIBAL CLUB / Proyecto 4
+el-pinton-afuego-y-anibal-club-05.mp4   <-  EL PINTÓN, AFUEGO Y ANIBAL CLUB / Proyecto 5
+el-pinton-afuego-y-anibal-club-06.mp4   <-  EL PINTÓN, AFUEGO Y ANIBAL CLUB / Proyecto 6
+el-pinton-afuego-y-anibal-club-07.mp4   <-  EL PINTÓN, AFUEGO Y ANIBAL CLUB / Proyecto 7
+malandro-01.mp4   <-  MALANDRO / Proyecto 1
+malandro-02.mp4   <-  MALANDRO / Proyecto 2
+nococinomas-01.mp4   <-  NoCocinoMás / Proyecto 1
+nococinomas-02.mp4   <-  NoCocinoMás / Proyecto 2
+nococinomas-03.mp4   <-  NoCocinoMás / Proyecto 3
+nococinomas-04.mp4   <-  NoCocinoMás / Proyecto 4
+nococinomas-05.mp4   <-  NoCocinoMás / Proyecto 5
+nococinomas-06.mp4   <-  NoCocinoMás / Proyecto 6
+nococinomas-07.mp4   <-  NoCocinoMás / Proyecto 7
+nococinomas-08.mp4   <-  NoCocinoMás / Proyecto 8
+sestogusto-01.mp4   <-  SESTOGUSTO / Proyecto 1
+sestogusto-02.mp4   <-  SESTOGUSTO / Proyecto 2
+sestogusto-03.mp4   <-  SESTOGUSTO / Proyecto 3
+yago-school-01.mp4   <-  YAGO SCHOOL / Proyecto 1
+yago-school-02.mp4   <-  YAGO SCHOOL / Proyecto 2
+yago-school-03.mp4   <-  YAGO SCHOOL / Proyecto 3
+yago-school-04.mp4   <-  YAGO SCHOOL / Proyecto 4
+yago-school-05.mp4   <-  YAGO SCHOOL / Proyecto 5
+
+TOTAL: 49 archivos
