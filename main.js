@@ -56,6 +56,72 @@
   }
 
   /* ---------------------------------------------------------
+     Hero reel — slow crossfade through real project stills
+     behind the headline, for an immediate "this is footage,
+     not a template" first impression.
+  --------------------------------------------------------- */
+  function initHeroReel() {
+    var reel = $("[data-hero-reel]");
+    if (!reel) return;
+    var slides = $$(".hero-reel-slide", reel);
+    if (slides.length < 2 || reduced) return;
+    var i = 0;
+    setInterval(function () {
+      slides[i].classList.remove("is-active");
+      i = (i + 1) % slides.length;
+      slides[i].classList.add("is-active");
+    }, 4500);
+  }
+
+  /* ---------------------------------------------------------
+     Hero parallax — cursor drifts the warm mesh lights,
+     scroll drifts the background reel. Desktop only; ambient,
+     so not gated by reduced-motion beyond the hero-reel check
+     above (mesh drift itself already respects it via CSS).
+  --------------------------------------------------------- */
+  function initHeroParallax() {
+    var hero = $(".hero");
+    var mesh = $("[data-hero-mesh]");
+    var reel = $("[data-hero-reel]");
+    if (!hero) return;
+
+    if (fineHover && mesh) {
+      hero.addEventListener("mousemove", function (e) {
+        var rect = hero.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width;
+        var py = (e.clientY - rect.top) / rect.height;
+        mesh.style.setProperty("--mesh-x", (14 + px * 10).toFixed(1) + "%");
+        mesh.style.setProperty("--mesh-y", (16 + py * 10).toFixed(1) + "%");
+      });
+    }
+    if (reel) {
+      document.addEventListener("scroll", function () {
+        var y = Math.min(window.scrollY, hero.offsetHeight) * 0.18;
+        reel.style.setProperty("--parallax-y", y.toFixed(1) + "px");
+      }, { passive: true });
+    }
+  }
+
+  /* ---------------------------------------------------------
+     Magnetic buttons — primary CTAs drift gently toward the
+     cursor. Desktop only.
+  --------------------------------------------------------- */
+  function initMagnetic() {
+    if (!fineHover) return;
+    $$(".hero-actions .btn, .contact-actions .btn").forEach(function (btn) {
+      btn.addEventListener("mousemove", function (e) {
+        var rect = btn.getBoundingClientRect();
+        var x = (e.clientX - rect.left - rect.width / 2) * 0.35;
+        var y = (e.clientY - rect.top - rect.height / 2) * 0.35;
+        btn.style.transform = "translate(" + x.toFixed(1) + "px, " + (y - 3).toFixed(1) + "px)";
+      });
+      btn.addEventListener("mouseleave", function () {
+        btn.style.transform = "";
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------
      Custom cursor
   --------------------------------------------------------- */
   function initCursor() {
@@ -365,6 +431,9 @@
   --------------------------------------------------------- */
   function boot() {
     safe(initHeroSplit, "initHeroSplit");
+    safe(initHeroReel, "initHeroReel");
+    safe(initHeroParallax, "initHeroParallax");
+    safe(initMagnetic, "initMagnetic");
     safe(initCursor, "initCursor");
     safe(initNav, "initNav");
     safe(initSmoothAnchors, "initSmoothAnchors");

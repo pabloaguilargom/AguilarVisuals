@@ -290,19 +290,37 @@ em { font-style: normal; color: var(--accent); }
   padding-top: var(--nav-h);
   overflow: clip;
 }
+.hero-reel {
+  position: absolute; inset: 0; z-index: -3;
+  transform: translateY(var(--parallax-y, 0px));
+}
+.hero-reel-slide {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  filter: grayscale(.25) brightness(.42) saturate(1.15) blur(.5px);
+  transform: scale(1.06);
+  transition: opacity 2.4s var(--ease-soft);
+}
+.hero-reel-slide.is-active { opacity: 1; }
+.hero-scrim {
+  position: absolute; inset: 0; z-index: -2;
+  background: linear-gradient(180deg, rgba(10,14,20,.72) 0%, rgba(6,8,12,.88) 65%, rgba(5,7,10,.95) 100%);
+}
 .hero-mesh {
   position: absolute; inset: 0; z-index: -1;
   background:
-    radial-gradient(50% 42% at 18% 20%, rgba(217,169,78,.22) 0%, transparent 70%),
-    radial-gradient(46% 38% at 86% 16%, rgba(226,73,60,.22) 0%, transparent 70%),
-    radial-gradient(60% 50% at 50% 100%, rgba(217,169,78,.12) 0%, transparent 70%),
-    linear-gradient(180deg, #0a0e14 0%, #05070a 100%);
-  background-size: 160% 160%, 160% 160%, 160% 160%, 100% 100%;
+    radial-gradient(50% 42% at var(--mesh-x, 18%) var(--mesh-y, 20%), rgba(217,169,78,.30) 0%, transparent 70%),
+    radial-gradient(46% 38% at calc(100% - var(--mesh-x, 14%)) 16%, rgba(226,73,60,.28) 0%, transparent 70%),
+    radial-gradient(60% 50% at 50% 100%, rgba(217,169,78,.14) 0%, transparent 70%);
+  background-size: 160% 160%, 160% 160%, 160% 160%;
   animation: meshDrift 22s ease-in-out infinite alternate;
+  transition: background .6s var(--ease-out);
 }
 @keyframes meshDrift {
-  0%   { background-position: 0% 0%, 100% 0%, 50% 100%, 0 0; }
-  100% { background-position: 20% 15%, 80% 20%, 55% 85%, 0 0; }
+  0%   { background-position: 0% 0%, 100% 0%, 50% 100%; }
+  100% { background-position: 20% 15%, 80% 20%, 55% 85%; }
 }
 .hero-inner { max-width: 800px; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
 .hero-title {
@@ -349,7 +367,7 @@ em { font-style: normal; color: var(--accent); }
   display: flex; align-items: center; gap: 1.1rem;
   white-space: nowrap;
   width: max-content;
-  animation: marqueeScroll 38s linear infinite;
+  animation: marqueeScroll 50s linear infinite;
 }
 .marquee-track span { font-family: var(--display); font-weight: 400; font-size: 1rem; text-transform: uppercase; letter-spacing: .02em; color: var(--ink-soft); }
 .marquee-track span:nth-child(2n) { color: var(--gold-bright); font-family: var(--sans); text-transform: none; font-size: .8rem; }
