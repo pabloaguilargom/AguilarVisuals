@@ -203,6 +203,36 @@
   }
 
   /* ---------------------------------------------------------
+     Cinematic tilt — 3D tilt + cursor-following spotlight on
+     project cards. Desktop/mouse only; never gated by
+     reduced-motion (it's a hover micro-interaction, not an
+     intrusive animation).
+  --------------------------------------------------------- */
+  function initTilt() {
+    if (!fineHover) return;
+    var MAX_TILT = 8;
+    $$(".project-card-link").forEach(function (card) {
+      card.addEventListener("mousemove", function (e) {
+        var rect = card.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width;
+        var py = (e.clientY - rect.top) / rect.height;
+        var tiltX = (px - 0.5) * MAX_TILT * 2;
+        var tiltY = (0.5 - py) * MAX_TILT * 2;
+        card.style.setProperty("--tilt-x", tiltX.toFixed(2) + "deg");
+        card.style.setProperty("--tilt-y", tiltY.toFixed(2) + "deg");
+        card.style.setProperty("--tilt-scale", "1.03");
+        card.style.setProperty("--spot-x", (px * 100).toFixed(1) + "%");
+        card.style.setProperty("--spot-y", (py * 100).toFixed(1) + "%");
+      });
+      card.addEventListener("mouseleave", function () {
+        card.style.setProperty("--tilt-x", "0deg");
+        card.style.setProperty("--tilt-y", "0deg");
+        card.style.setProperty("--tilt-scale", "1");
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------
      Count-up stats
   --------------------------------------------------------- */
   function initCountUp() {
@@ -340,6 +370,7 @@
     safe(initSmoothAnchors, "initSmoothAnchors");
     safe(initReveals, "initReveals");
     safe(initGridStagger, "initGridStagger");
+    safe(initTilt, "initTilt");
     safe(initCountUp, "initCountUp");
     safe(initFilters, "initFilters");
     safe(initLightbox, "initLightbox");
