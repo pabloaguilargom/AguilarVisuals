@@ -373,6 +373,12 @@ em { font-style: italic; color: var(--accent); }
   font-family: var(--mono); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
   color: var(--ink-faint);
 }
+.client-tagline {
+  flex-basis: 100%;
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(.95rem, 1.6vw, 1.1rem);
+  color: var(--blue-deep);
+}
 
 .project-grid {
   display: grid;
