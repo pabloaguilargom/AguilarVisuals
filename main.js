@@ -393,10 +393,12 @@
       lightbox.classList.add("is-open");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
+      document.documentElement.classList.add("is-lightbox-open");
     }
     function close() {
       lightbox.classList.remove("is-open");
       lightbox.setAttribute("aria-hidden", "true");
+      document.documentElement.classList.remove("is-lightbox-open");
       frame.innerHTML = "";
       frame.style.aspectRatio = "";
       if (panel) panel.classList.remove("is-portrait");
