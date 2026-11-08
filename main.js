@@ -364,7 +364,10 @@
   }
 
   /* ---------------------------------------------------------
-     Lightbox — lazy-load Drive iframe only on demand
+     Lightbox — our own <video>, lazy-loaded only on demand.
+     No iframe, no third-party player: the whole class of iOS
+     nested-iframe/black-video/double-controls bugs we fought
+     with the Drive embed simply can't happen here.
   --------------------------------------------------------- */
   function initLightbox() {
     var lightbox = $("[data-lightbox]");
@@ -372,8 +375,8 @@
     var frame = $("[data-lightbox-frame]", lightbox);
     var panel = $(".lightbox-panel", lightbox);
 
-    function open(embedUrl, trigger) {
-      frame.innerHTML = '<iframe src="' + embedUrl + '" allow="autoplay; fullscreen" allowfullscreen webkitallowfullscreen mozallowfullscreen loading="eager"></iframe>';
+    function open(videoUrl, trigger) {
+      frame.innerHTML = '<video src="' + videoUrl + '" controls autoplay playsinline webkit-playsinline preload="auto"></video>';
 
       // Match the player's shape to the video's real orientation instead of
       // always forcing a 16:9 box — vertical/portrait cuts get squeezed
@@ -409,7 +412,7 @@
       var trigger = e.target.closest("[data-play]");
       if (trigger) {
         e.preventDefault();
-        open(trigger.getAttribute("data-embed"), trigger);
+        open(trigger.getAttribute("data-src"), trigger);
         return;
       }
       if (e.target.closest("[data-lightbox-close]")) close();
