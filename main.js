@@ -63,14 +63,88 @@
   function initHeroReel() {
     var reel = $("[data-hero-reel]");
     if (!reel) return;
-    var slides = $$(".hero-reel-slide", reel);
-    if (slides.length < 2 || reduced) return;
-    var i = 0;
-    setInterval(function () {
-      slides[i].classList.remove("is-active");
-      i = (i + 1) % slides.length;
-      slides[i].classList.add("is-active");
-    }, 2200);
+    var data = window.__BRAND__;
+    if (!data || !data.clients || !data.clients.length) return;
+
+    // One short clip per client, first project only, walked in the exact
+    // order clients appear in the portfolio below — Freestyle Andalucía
+    // through Wildwoods. A couple of clients' opening seconds are a static
+    // title card, so start a little into the clip rather than at 0.
+    var clips = data.clients
+      .map(function (c) { return c.projects && c.projects[0]; })
+      .filter(Boolean);
+    if (clips.length < 2) return;
+
+    if (reduced) return; // keep the static fallback poster from the HTML
+
+    var FRAGMENT_MS = 2600;
+    var START_OFFSET = 1.5;
+
+    var fallback = $("[data-hero-reel-fallback]", reel);
+
+    function makeVideo() {
+      var v = document.createElement("video");
+      v.className = "hero-reel-slide";
+      v.muted = true;
+      v.defaultMuted = true;
+      v.playsInline = true;
+      v.setAttribute("playsinline", "");
+      v.setAttribute("webkit-playsinline", "");
+      v.preload = "auto";
+      reel.appendChild(v);
+      return v;
+    }
+
+    var vA = makeVideo();
+    var vB = makeVideo();
+    var active = vA, standby = vB, idx = 0, swapTimer = null;
+
+    function loadClip(video, clip) {
+      video.src = clip.src + "#t=" + START_OFFSET;
+      if (clip.poster) video.poster = clip.poster;
+      video.load();
+    }
+
+    function showActive() {
+      active.classList.add("is-active");
+      if (fallback) fallback.classList.remove("is-active");
+      var p = active.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+
+    function advance() {
+      idx = (idx + 1) % clips.length;
+      loadClip(standby, clips[idx]);
+
+      var onReady = function () {
+        standby.removeEventListener("loadeddata", onReady);
+        var p = standby.play();
+        if (p && p.catch) p.catch(function () {});
+        standby.classList.add("is-active");
+        active.classList.remove("is-active");
+        var outgoing = active;
+        setTimeout(function () { outgoing.pause(); }, 800);
+        var tmp = active; active = standby; standby = tmp;
+        swapTimer = setTimeout(advance, FRAGMENT_MS);
+      };
+      standby.addEventListener("loadeddata", onReady);
+    }
+
+    loadClip(active, clips[0]);
+    active.addEventListener("loadeddata", function onFirst() {
+      active.removeEventListener("loadeddata", onFirst);
+      showActive();
+      swapTimer = setTimeout(advance, FRAGMENT_MS);
+    }, { once: true });
+
+    // If a clip is slow to load (big file, slow connection), don't just
+    // sit on a black layer — the fallback poster is still showing underneath.
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        clearTimeout(swapTimer);
+        active.pause();
+      }
+    });
   }
 
   /* ---------------------------------------------------------
