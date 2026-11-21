@@ -71,7 +71,7 @@
     // through Wildwoods. A couple of clients' opening seconds are a static
     // title card, so start a little into the clip rather than at 0.
     // Phones get 9:16 clips (smaller, no wasted pixels); everything else 16:9.
-    var portrait = window.matchMedia("(max-width: 859px)").matches;
+    var portrait = true; // el mockup de iPhone es vertical en todas las pantallas
     var clips = data.clients
       .map(function (c) {
         var first = c.projects && c.projects[0];

@@ -155,24 +155,33 @@ em { font-style: normal; }
 .hero-sub mark { background: var(--indigo); color: var(--arroz); padding: .05em .4em; border-radius: 6px; font-weight: 700; display: inline-block; rotate: -2deg; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: .9rem; }
 
-/* reel: la ventana de vídeo, como una tarjeta inclinada */
+/* reel: el vídeo resumen dentro de un mockup de iPhone */
+.hero { --tel-w: clamp(190px, 15vw, 250px); }
 .hero-reel {
-  position: absolute; z-index: 3; right: clamp(16px, 5vw, 80px); bottom: 118px;
-  width: min(42vw, 600px); aspect-ratio: 16 / 9; overflow: hidden;
-  border: var(--borda) solid var(--arroz); border-radius: var(--raio); background: var(--nori);
+  position: absolute; z-index: 3; right: clamp(16px, 5vw, 80px); bottom: 90px;
+  width: var(--tel-w); aspect-ratio: 9 / 19; overflow: hidden;
+  border: 10px solid var(--nori); border-radius: calc(var(--tel-w) * .17); background: var(--nori);
   rotate: 4deg; translate: 0 var(--parallax-y, 0px);
-  box-shadow: 8px 10px 0 var(--nori);
+  box-shadow: 0 0 0 3px var(--arroz), 9px 11px 0 3px var(--nori);
+}
+.hero-reel::before { /* isla dinámica */
+  content: ""; position: absolute; z-index: 2; top: 8px; left: 50%; width: 30%; height: 3.2%; margin-left: -15%;
+  border-radius: 99px; background: var(--nori);
+}
+.hero-reel::after { /* barra de inicio */
+  content: ""; position: absolute; z-index: 2; bottom: 7px; left: 50%; width: 34%; height: 4px; margin-left: -17%;
+  border-radius: 99px; background: var(--arroz); opacity: .9;
 }
 .hero-reel-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .5s linear; }
 .hero-reel-slide.is-active { opacity: 1; }
 .hero-tag {
-  position: absolute; z-index: 4; right: calc(clamp(16px, 5vw, 80px) - 14px); bottom: 100px;
+  position: absolute; z-index: 4; right: calc(clamp(16px, 5vw, 80px) - 24px); bottom: 150px;
   padding: .55em 1.2em; background: var(--indigo); color: var(--arroz); border: 3px solid var(--arroz); border-radius: 8px;
   font-weight: 700; font-size: clamp(13px, 1.3vw, 18px); letter-spacing: .06em; text-transform: uppercase; rotate: -6deg; white-space: nowrap;
   box-shadow: 4px 4px 0 var(--nori);
 }
 .hero-sello {
-  position: absolute; z-index: 4; left: calc(58% - 20px); bottom: 100px; width: clamp(96px, 11vw, 150px); rotate: 0deg;
+  position: absolute; z-index: 4; right: calc(clamp(16px, 5vw, 80px) + var(--tel-w) - 40px); bottom: 250px; width: clamp(96px, 10vw, 140px);
   animation: gira 18s linear infinite;
 }
 .sello-bg { fill: var(--wasabi); stroke: var(--nori); stroke-width: 3; }
@@ -211,7 +220,7 @@ em { font-style: normal; }
 @media (max-width: 859px) {
   .hero { padding-bottom: 110px; }
   .hero-title { font-size: clamp(3rem, 15vw, 6rem); }
-  .hero-reel { position: relative; order: 3; right: auto; bottom: auto; width: min(64%, 300px); aspect-ratio: 9 / 16; margin: 2rem 0 0 auto; align-self: flex-end; z-index: 3; }
+  .hero-reel { position: relative; order: 3; right: auto; bottom: auto; --tel-w: min(58%, 240px); width: var(--tel-w); aspect-ratio: 9 / 19; margin: 2rem 14px 0 auto; align-self: flex-end; z-index: 3; }
   .hero-tag { right: auto; left: var(--margem); bottom: auto; position: relative; order: 2; align-self: flex-start; margin-top: 1.4rem; }
   .hero-sello { left: auto; right: 6px; bottom: auto; top: calc(var(--nav-h) + 2vh + 34vw); width: 96px; }
   .hero-timecode { width: 110px; font-size: .8rem; }
