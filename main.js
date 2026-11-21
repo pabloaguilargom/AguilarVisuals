@@ -508,17 +508,51 @@
   /* ---------------------------------------------------------
      Boot
   --------------------------------------------------------- */
+  /* ---------------------------------------------------------
+     Timeline concept — hero timecode + playhead that follows the
+     pointer across the client lanes.
+  --------------------------------------------------------- */
+  function initTimeline() {
+    var tc = $("[data-timecode]");
+    var head = $(".hero-playhead");
+    if (tc && !reduced) {
+      var t0 = null, LOOP = 24000;
+      var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+      var tick = function (ts) {
+        if (!t0) t0 = ts;
+        var ms = (ts - t0) % LOOP;
+        var f = Math.floor(ms / 1000 * 25);
+        tc.textContent = "00:00:" + pad(Math.floor(f / 25)) + ":" + pad(f % 25);
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    } else if (head) { head.style.animation = "none"; head.style.left = "30%"; }
+
+    var wrap = $("[data-timeline]");
+    var ph = $("[data-playhead]");
+    var label = $("[data-playhead-time]");
+    if (!wrap || !ph || !fineHover) return;
+    wrap.addEventListener("mousemove", function (e) {
+      var r = wrap.getBoundingClientRect();
+      var x = e.clientX - r.left;
+      var sec = Math.max(0, Math.round((x / r.width) * 120));
+      ph.style.transform = "translateX(" + x.toFixed(0) + "px)";
+      ph.classList.add("is-on");
+      label.textContent = pad2(Math.floor(sec / 60)) + ":" + pad2(sec % 60);
+    });
+    wrap.addEventListener("mouseleave", function () { ph.classList.remove("is-on"); });
+    function pad2(n) { return (n < 10 ? "0" : "") + n; }
+  }
+
   function boot() {
     safe(initHeroSplit, "initHeroSplit");
     safe(initHeroReel, "initHeroReel");
     safe(initHeroParallax, "initHeroParallax");
-    safe(initMagnetic, "initMagnetic");
-    safe(initCursor, "initCursor");
+    safe(initTimeline, "initTimeline");
     safe(initNav, "initNav");
     safe(initSmoothAnchors, "initSmoothAnchors");
     safe(initReveals, "initReveals");
     safe(initGridStagger, "initGridStagger");
-    safe(initTilt, "initTilt");
     safe(initCountUp, "initCountUp");
     safe(initFilters, "initFilters");
     safe(initLightbox, "initLightbox");

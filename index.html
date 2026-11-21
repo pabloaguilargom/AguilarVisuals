@@ -8,18 +8,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@100;200;300;400;500;600;700;800;900&family=Archivo+Black&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261109">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B1B2B'/%3E%3Ctext x='50' y='68' font-size='58' font-family='Georgia' font-style='italic' fill='%23E63946' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css?v=20261121">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0A'/%3E%3Ctext x='50' y='68' font-size='58' font-weight='900' font-family='Arial' fill='%23FF3B1D' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
 </head>
 <body>
 <a class="skip-link" href="#main">Saltar al contenido</a>
 
-<div class="cursor" data-cursor aria-hidden="true">
-  <div class="cursor-dot"></div>
-  <div class="cursor-ring"></div>
-</div>
-<div class="grain" aria-hidden="true"></div>
-<div class="vignette" aria-hidden="true"></div>
 
 <header class="nav" data-nav>
   <div class="nav-inner container">
@@ -48,18 +42,18 @@
     <div class="hero-reel" aria-hidden="true" data-hero-reel>
       <img class="hero-reel-slide is-active" src="assets/posters/freestyle-andalucia-01.jpg" alt="" loading="eager" decoding="async" data-hero-reel-fallback>
     </div>
-    <div class="hero-scrim" aria-hidden="true"></div>
-    <div class="hero-mesh" aria-hidden="true" data-hero-mesh></div>
-    <div class="hero-inner container">
-      <p class="kicker reveal">Aguilar Visuals · Filmmaker &amp; Photography</p>
+    <div class="hero-inner">
       <h1 class="hero-title" data-split>Pablo Aguilar<br><em>Gómez</em></h1>
-      <p class="hero-sub reveal">Filmmaker y narrador visual especializado en transformar ideas en historias cinematográficas con impacto. Apasionado por la dirección de fotografía, el montaje y la creación de contenido que conecta emocionalmente con la audiencia.</p>
+      <p class="hero-sub reveal"><mark>Filmmaker</mark> y editor de vídeo.</p>
       <div class="hero-actions reveal">
         <a href="#trabajo" class="btn btn-primary">Ver trabajo</a>
         <a href="#contacto" class="btn btn-ghost">Contactar</a>
       </div>
     </div>
-    <div class="hero-scroll-cue" aria-hidden="true"><span></span> Scroll</div>
+    <div class="hero-timeline" aria-hidden="true">
+      <span class="hero-timecode" data-timecode>00:00:00:00</span>
+      <div class="hero-ruler"><i class="hero-playhead"></i></div>
+    </div>
   </section>
 
   <div class="marquee" aria-hidden="true">
@@ -100,9 +94,7 @@
   <section class="portfolio" id="trabajo">
     <div class="container">
       <div class="section-head">
-        <p class="kicker reveal">Trabajo</p>
         <h2 class="reveal">Marcas para las que he trabajado</h2>
-        <p class="section-sub reveal">Cada proyecto, un montaje distinto. Selecciona un cliente o explora todos los trabajos.</p>
       </div>
       <div class="filter-pills reveal" data-filters role="tablist" aria-label="Filtrar por cliente">
           <button class="pill is-active" data-filter="all" type="button">Todos <span>52</span></button>
@@ -122,6 +114,9 @@
           <button class="pill" data-filter="suturo" type="button">SUTURO <span>3</span></button>
           <button class="pill" data-filter="wildwoods" type="button">WILDWOODS <span>1</span></button>
       </div>
+      <div class="timeline" data-timeline>
+        <div class="timeline-ruler" aria-hidden="true"></div>
+        <div class="playhead" data-playhead aria-hidden="true"><span data-playhead-time>00:00</span></div>
       <div class="portfolio-groups" data-portfolio>
         <div class="client-group reveal" data-client="freestyle-andalucia">
           <div class="client-head">
@@ -624,13 +619,13 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
   </section>
 
   <section class="about" id="sobre-mi">
     <div class="container about-grid">
       <div class="about-copy">
-        <p class="kicker reveal">Sobre mí</p>
         <p class="about-lede reveal">Filmmaker y narrador visual especializado en transformar ideas en historias cinematográficas con impacto. Apasionado por la dirección de fotografía, el montaje y la creación de contenido que conecta emocionalmente con la audiencia. Siempre en busca del próximo encuadre perfecto para darle vida a cada proyecto.</p>
       </div>
       <div class="about-stats">
@@ -642,23 +637,17 @@
           <span class="stat-num" data-count-to="52">0</span>
           <span class="stat-label">Proyectos audiovisuales</span>
         </div>
-        <div class="stat reveal">
-          <span class="stat-num">100<span>%</span></span>
-          <span class="stat-label">Filmmaker &amp; editor de vídeo</span>
-        </div>
       </div>
     </div>
   </section>
 
   <section class="contact" id="contacto">
-    <div class="hero-mesh hero-mesh--contact" aria-hidden="true"></div>
     <div class="container contact-inner">
-      <p class="kicker reveal">Contacto</p>
       <h2 class="reveal">Hablemos de tu <em>próxima historia</em>.</h2>
       <a class="contact-email reveal" href="mailto:pabloaguilargom@gmail.com">pabloaguilargom@gmail.com</a>
       <div class="contact-actions reveal">
         <a class="btn btn-primary" href="mailto:pabloaguilargom@gmail.com">Escribir un email</a>
-        <a class="btn btn-ghost" href="https://wa.me/34689521988" target="_blank" rel="noopener">WhatsApp · +34 689 52 19 88</a>
+        <a class="btn btn-ghost" href="https://wa.me/34689521988" target="_blank" rel="noopener">WhatsApp +34 689 52 19 88</a>
       </div>
     </div>
   </section>
@@ -680,6 +669,6 @@
 </div>
 
 <script defer src="lib/manifest.js"></script>
-<script defer src="main.js?v=20261109"></script>
+<script defer src="main.js?v=20261121"></script>
 </body>
 </html>
