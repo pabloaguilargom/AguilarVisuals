@@ -71,7 +71,7 @@
     // through Wildwoods. A couple of clients' opening seconds are a static
     // title card, so start a little into the clip rather than at 0.
     // Phones get 9:16 clips (smaller, no wasted pixels); everything else 16:9.
-    var portrait = window.matchMedia("(max-width: 720px)").matches;
+    var portrait = window.matchMedia("(max-width: 859px)").matches;
     var clips = data.clients
       .map(function (c) {
         var first = c.projects && c.projects[0];
@@ -98,6 +98,10 @@
       v.playsInline = true;
       v.setAttribute("playsinline", "");
       v.setAttribute("webkit-playsinline", "");
+      // iOS Safari only honours autoplay with the muted *attribute* present
+      v.setAttribute("muted", "");
+      v.setAttribute("autoplay", "");
+      v.disablePictureInPicture = true;
       v.preload = "auto";
       reel.appendChild(v);
       return v;
@@ -147,6 +151,15 @@
 
     // If a clip is slow to load (big file, slow connection), don't just
     // sit on a black layer — the fallback poster is still showing underneath.
+    // iOS Low Power Mode blocks autoplay until the first touch: retry then.
+    var unlock = function () {
+      var p = active.play();
+      if (p && p.catch) p.catch(function () {});
+    };
+    ["touchstart", "pointerdown", "scroll"].forEach(function (ev) {
+      document.addEventListener(ev, unlock, { once: true, passive: true });
+    });
+
     document.addEventListener("visibilitychange", function () {
       if (document.hidden) {
         clearTimeout(swapTimer);

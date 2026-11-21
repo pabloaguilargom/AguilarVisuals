@@ -211,7 +211,7 @@ em { font-style: normal; }
 @media (max-width: 859px) {
   .hero { padding-bottom: 110px; }
   .hero-title { font-size: clamp(3rem, 15vw, 6rem); }
-  .hero-reel { position: relative; order: 3; right: auto; bottom: auto; width: min(86%, 440px); margin: 2rem 0 0 auto; align-self: flex-end; z-index: 3; }
+  .hero-reel { position: relative; order: 3; right: auto; bottom: auto; width: min(64%, 300px); aspect-ratio: 9 / 16; margin: 2rem 0 0 auto; align-self: flex-end; z-index: 3; }
   .hero-tag { right: auto; left: var(--margem); bottom: auto; position: relative; order: 2; align-self: flex-start; margin-top: 1.4rem; }
   .hero-sello { left: auto; right: 6px; bottom: auto; top: calc(var(--nav-h) + 2vh + 34vw); width: 96px; }
   .hero-timecode { width: 110px; font-size: .8rem; }
