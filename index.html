@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@100;200;300;400;500;600;700;800;900&family=Archivo+Black&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261121b">
+<link rel="stylesheet" href="styles.css?v=20261121d">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0A'/%3E%3Ctext x='50' y='68' font-size='58' font-weight='900' font-family='Arial' fill='%23FF3B1D' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -664,11 +664,25 @@
 <div class="lightbox" data-lightbox aria-hidden="true">
   <div class="lightbox-backdrop" data-lightbox-close></div>
   <div class="lightbox-panel" role="dialog" aria-modal="true" aria-label="Reproductor de vídeo">
-    <div class="lightbox-frame" data-lightbox-frame></div>
+    <div class="clapper" aria-hidden="true">
+      <div class="clapper-stick clapper-stick--top"></div>
+      <div class="clapper-stick clapper-stick--base"></div>
+    </div>
+    <div class="slate">
+      <div class="slate-row">
+        <p><span>Producción</span>Aguilar Visuals</p>
+        <p><span>Director</span>Pablo Aguilar Gómez</p>
+      </div>
+      <div class="slate-row">
+        <p class="slate-wide"><span>Escena</span><b data-slate-title>—</b></p>
+        <button class="slate-close" type="button" data-lightbox-close aria-label="Cerrar vídeo">Cerrar</button>
+      </div>
+      <div class="lightbox-frame" data-lightbox-frame></div>
+    </div>
   </div>
 </div>
 
 <script defer src="lib/manifest.js"></script>
-<script defer src="main.js?v=20261121b"></script>
+<script defer src="main.js?v=20261121d"></script>
 </body>
 </html>

@@ -70,15 +70,19 @@
     // order clients appear in the portfolio below — Freestyle Andalucía
     // through Wildwoods. A couple of clients' opening seconds are a static
     // title card, so start a little into the clip rather than at 0.
+    // Phones get 9:16 clips (smaller, no wasted pixels); everything else 16:9.
+    var portrait = window.matchMedia("(max-width: 720px)").matches;
     var clips = data.clients
       .map(function (c) {
         var first = c.projects && c.projects[0];
         if (!c.slug || !first) return null;
-        return { src: "assets/hero/" + c.slug + ".mp4", poster: first.poster };
+        return { src: "assets/hero/" + (portrait ? "m/" : "") + c.slug + ".mp4", poster: first.poster };
       })
       .filter(Boolean);
     if (clips.length < 2) return;
 
+    var conn = navigator.connection;
+    if (conn && conn.saveData) return; // data saver: keep the still poster
     if (reduced) return; // keep the static fallback poster from the HTML
 
     var FRAGMENT_MS = 2600;
@@ -471,13 +475,18 @@
       }
       if (panel) panel.classList.toggle("is-portrait", portrait);
 
+      var st = $("[data-slate-title]", lightbox);
+      if (st) st.textContent = (trigger && trigger.getAttribute("data-title")) || "—";
+      lightbox.classList.remove("is-clap");
       lightbox.classList.add("is-open");
+      void lightbox.offsetWidth;
+      lightbox.classList.add("is-clap");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
       document.documentElement.classList.add("is-lightbox-open");
     }
     function close() {
-      lightbox.classList.remove("is-open");
+      lightbox.classList.remove("is-open", "is-clap");
       lightbox.setAttribute("aria-hidden", "true");
       document.documentElement.classList.remove("is-lightbox-open");
       frame.innerHTML = "";
