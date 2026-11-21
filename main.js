@@ -647,7 +647,27 @@
     function pad2(n) { return (n < 10 ? "0" : "") + n; }
   }
 
+  /* Palabras gigantes: el tamaño de letra se ajusta al ancho */
+  function initFit() {
+    var els = $$("[data-fit]");
+    if (!els.length) return;
+    var run = function () {
+      els.forEach(function (el) {
+        var frac = parseFloat(el.getAttribute("data-fit")) || 0.95;
+        el.style.fontSize = "100px";
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        var tw = range.getBoundingClientRect().width;
+        if (tw) el.style.fontSize = (100 * (document.documentElement.clientWidth * frac) / tw).toFixed(1) + "px";
+      });
+    };
+    run();
+    window.addEventListener("resize", run);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
+  }
+
   function boot() {
+    safe(initFit, "initFit");
     safe(initHeroSplit, "initHeroSplit");
     safe(initHeroReel, "initHeroReel");
     safe(initHeroParallax, "initHeroParallax");
