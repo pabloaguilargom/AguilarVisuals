@@ -457,8 +457,88 @@
     var frame = $("[data-lightbox-frame]", lightbox);
     var panel = $(".lightbox-panel", lightbox);
 
+    var playerEl = $("[data-player]", lightbox);
+    var pbPlay = $("[data-pb-play]", lightbox), pbTime = $("[data-pb-time]", lightbox);
+    var pbTrack = $("[data-pb-track]", lightbox), pbFill = $("[data-pb-fill]", lightbox);
+    var pbBuf = $("[data-pb-buffer]", lightbox), pbThumb = $("[data-pb-thumb]", lightbox);
+    var pbMute = $("[data-pb-mute]", lightbox), pbFull = $("[data-pb-full]", lightbox);
+    var vid = null;
+
+    function fmt(s) {
+      if (!isFinite(s)) return "0:00";
+      s = Math.floor(s);
+      var m = Math.floor(s / 60), r = s % 60;
+      return m + ":" + (r < 10 ? "0" : "") + r;
+    }
+    function paint() {
+      if (!vid) return;
+      var d = vid.duration || 0, p = d ? vid.currentTime / d * 100 : 0;
+      pbFill.style.width = p + "%";
+      pbThumb.style.left = p + "%";
+      pbTrack.setAttribute("aria-valuenow", String(Math.round(p)));
+      pbTime.textContent = fmt(vid.currentTime) + " / " + fmt(d);
+      if (vid.buffered && vid.buffered.length && d) {
+        pbBuf.style.width = (vid.buffered.end(vid.buffered.length - 1) / d * 100) + "%";
+      }
+    }
+    function sync() {
+      if (!vid) return;
+      playerEl.classList.toggle("is-playing", !vid.paused && !vid.ended);
+      playerEl.classList.toggle("is-muted", vid.muted || vid.volume === 0);
+      pbPlay.setAttribute("aria-label", vid.paused ? "Reproducir" : "Pausa");
+    }
+    function toggle() {
+      if (!vid) return;
+      if (vid.paused) { var p = vid.play(); if (p && p.catch) p.catch(function () {}); } else vid.pause();
+    }
+    function seekTo(clientX) {
+      if (!vid || !vid.duration) return;
+      var r = pbTrack.getBoundingClientRect();
+      var f = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+      vid.currentTime = f * vid.duration;
+      paint();
+    }
+    function fullscreen() {
+      var doc = document;
+      if (doc.fullscreenElement || doc.webkitFullscreenElement) {
+        (doc.exitFullscreen || doc.webkitExitFullscreen).call(doc);
+      } else if (playerEl.requestFullscreen) {
+        playerEl.requestFullscreen().catch(function () {});
+      } else if (playerEl.webkitRequestFullscreen) {
+        playerEl.webkitRequestFullscreen();
+      } else if (vid && vid.webkitEnterFullscreen) {
+        vid.webkitEnterFullscreen(); // iPhone Safari: only the <video> itself can go fullscreen
+      }
+    }
+    function setupPlayer(v) {
+      vid = v;
+      playerEl.classList.remove("is-playing", "is-muted", "is-loading");
+      playerEl.classList.add("is-loading");
+      pbFill.style.width = pbBuf.style.width = "0%";
+      pbThumb.style.left = "0%";
+      pbTime.textContent = "0:00 / 0:00";
+      ["play", "pause", "ended", "volumechange"].forEach(function (ev) { v.addEventListener(ev, sync); });
+      ["timeupdate", "progress", "loadedmetadata", "durationchange"].forEach(function (ev) { v.addEventListener(ev, paint); });
+      v.addEventListener("waiting", function () { playerEl.classList.add("is-loading"); });
+      ["playing", "canplay"].forEach(function (ev) { v.addEventListener(ev, function () { playerEl.classList.remove("is-loading"); }); });
+      v.addEventListener("click", toggle);
+      sync();
+    }
+
+    pbPlay.addEventListener("click", toggle);
+    pbMute.addEventListener("click", function () { if (vid) { vid.muted = !vid.muted; sync(); } });
+    pbFull.addEventListener("click", fullscreen);
+    var dragging = false;
+    pbTrack.addEventListener("pointerdown", function (e) {
+      dragging = true; pbTrack.setPointerCapture(e.pointerId); seekTo(e.clientX);
+    });
+    pbTrack.addEventListener("pointermove", function (e) { if (dragging) seekTo(e.clientX); });
+    pbTrack.addEventListener("pointerup", function () { dragging = false; });
+    pbTrack.addEventListener("pointercancel", function () { dragging = false; });
+
     function open(videoUrl, trigger) {
-      frame.innerHTML = '<video src="' + videoUrl + '" controls autoplay playsinline webkit-playsinline preload="auto"></video>';
+      frame.innerHTML = '<video src="' + videoUrl + '" autoplay playsinline webkit-playsinline preload="auto"></video>';
+      setupPlayer($("video", frame));
 
       // Match the player's shape to the video's real orientation instead of
       // always forcing a 16:9 box — vertical/portrait cuts get squeezed
@@ -489,6 +569,8 @@
       lightbox.classList.remove("is-open", "is-clap");
       lightbox.setAttribute("aria-hidden", "true");
       document.documentElement.classList.remove("is-lightbox-open");
+      if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
+      if (vid) { vid.pause(); vid = null; }
       frame.innerHTML = "";
       frame.style.aspectRatio = "";
       if (panel) panel.classList.remove("is-portrait");
@@ -506,7 +588,15 @@
     });
 
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && lightbox.classList.contains("is-open")) close();
+      if (!lightbox.classList.contains("is-open")) return;
+      if (e.key === "Escape") { close(); return; }
+      if (!vid) return;
+      if (e.target.closest && e.target.closest(".pb-btn, .slate-close")) { if (e.key === " " || e.key === "Enter") return; }
+      if (e.key === " " || e.key === "k") { e.preventDefault(); toggle(); }
+      else if (e.key === "ArrowRight") { vid.currentTime = Math.min(vid.duration || 0, vid.currentTime + 5); }
+      else if (e.key === "ArrowLeft") { vid.currentTime = Math.max(0, vid.currentTime - 5); }
+      else if (e.key === "m") { vid.muted = !vid.muted; }
+      else if (e.key === "f") { fullscreen(); }
     });
   }
 
