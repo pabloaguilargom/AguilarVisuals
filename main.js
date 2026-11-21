@@ -71,14 +71,18 @@
     // through Wildwoods. A couple of clients' opening seconds are a static
     // title card, so start a little into the clip rather than at 0.
     var clips = data.clients
-      .map(function (c) { return c.projects && c.projects[0]; })
+      .map(function (c) {
+        var first = c.projects && c.projects[0];
+        if (!c.slug || !first) return null;
+        return { src: "assets/hero/" + c.slug + ".mp4", poster: first.poster };
+      })
       .filter(Boolean);
     if (clips.length < 2) return;
 
     if (reduced) return; // keep the static fallback poster from the HTML
 
     var FRAGMENT_MS = 2600;
-    var START_OFFSET = 1.5;
+    var START_OFFSET = 0;
 
     var fallback = $("[data-hero-reel-fallback]", reel);
 
@@ -100,7 +104,7 @@
     var active = vA, standby = vB, idx = 0, swapTimer = null;
 
     function loadClip(video, clip) {
-      video.src = clip.src + "#t=" + START_OFFSET;
+      video.src = clip.src;
       if (clip.poster) video.poster = clip.poster;
       video.load();
     }
